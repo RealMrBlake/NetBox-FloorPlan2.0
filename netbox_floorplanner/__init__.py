@@ -1,15 +1,15 @@
 from django.utils.translation import gettext_lazy as _
 from netbox.plugins import PluginConfig
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 
 class FloorPlannerConfig(PluginConfig):
     name = 'netbox_floorplanner'
-    verbose_name = _('Floor Planner')
+    verbose_name = 'NetBox-Floorplaner'
     description = _('Drag & drop floor plan designer for sites and locations')
     version = __version__
-    author = 'Louis'
+    author = 'Claude'
     base_url = 'floorplanner'
     min_version = '4.7.2'
     default_settings = {

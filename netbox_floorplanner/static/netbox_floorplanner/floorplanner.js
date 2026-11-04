@@ -144,6 +144,10 @@
     buildDom() {
       this.root.classList.add(this.edit ? 'fp-edit' : 'fp-view');
       this.root.tabIndex = 0;
+      // The template renders {% csrf_token %} into the root; the cookie may be
+      // unavailable (CSRF_COOKIE_HTTPONLY, custom cookie name), so prefer this.
+      const tokenInput = this.root.querySelector('input[name=csrfmiddlewaretoken]');
+      this.csrfToken = tokenInput ? tokenInput.value : getCookie('csrftoken');
       this.root.innerHTML = '';
 
       this.toolbar = html('div', { class: 'fp-toolbar' });
@@ -410,7 +414,7 @@
         const resp = await fetch(this.cfg.api.layout, {
           method: 'PUT',
           credentials: 'same-origin',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRFToken': this.csrfToken },
           body: JSON.stringify(this.serialize()),
         });
         const data = await resp.json().catch(() => ({}));
