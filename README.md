@@ -21,17 +21,17 @@ It is a from-scratch alternative to the community `netbox-floorplan-plugin`, wit
 
 ## Installation and updates
 
-1. Install the package into the NetBox virtual environment. Pin a release tag or commit for production:
+1. Install the package into the NetBox virtual environment:
 
    ```bash
    source /opt/netbox/venv/bin/activate
-   pip install "git+https://git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0.git@v0.1.0"
+   pip install "git+https://git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0.git"
    ```
 
 2. Add the same source to `local_requirements.txt`, so NetBox upgrades (`upgrade.sh`) reinstall the plugin automatically:
 
    ```text
-   git+https://git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0.git@v0.1.0
+   git+https://git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0.git
    ```
 
    For private repositories use a deploy token or SSH key and keep the credentials out of this file.
