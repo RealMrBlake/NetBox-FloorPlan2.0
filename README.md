@@ -6,6 +6,7 @@ It is a from-scratch alternative to the community `netbox-floorplan-plugin`, wit
 
 | | |
 |---|---|
+| **Repository** | [git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0](https://git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0) |
 | **Package** | `netbox-floorplanner` |
 | **Plugin name** | `netbox_floorplanner` |
 | **NetBox** | 4.7.2 or newer |
@@ -24,13 +25,13 @@ It is a from-scratch alternative to the community `netbox-floorplan-plugin`, wit
 
    ```bash
    source /opt/netbox/venv/bin/activate
-   pip install "git+https://<your-git-server>/<owner>/netbox-floorplanner.git@v0.1.0"
+   pip install "git+https://git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0.git@v0.1.0"
    ```
 
 2. Add the same source to `local_requirements.txt`, so NetBox upgrades (`upgrade.sh`) reinstall the plugin automatically:
 
    ```text
-   git+https://<your-git-server>/<owner>/netbox-floorplanner.git@v0.1.0
+   git+https://git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0.git@v0.1.0
    ```
 
    For private repositories use a deploy token or SSH key and keep the credentials out of this file.
