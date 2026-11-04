@@ -1,6 +1,7 @@
 from netbox.plugins import PluginTemplateExtension
 
-from .models import FloorPlanItem
+from .models import FloorPlan, FloorPlanItem
+from .preview import render_preview_svg
 
 
 class RackFloorPlanButton(PluginTemplateExtension):
@@ -19,4 +20,18 @@ class RackFloorPlanButton(PluginTemplateExtension):
         })
 
 
-template_extensions = [RackFloorPlanButton]
+class LocationFloorPlanPreview(PluginTemplateExtension):
+    """Shows clickable previews of the location's floor plans on the location page."""
+    models = ['dcim.location']
+
+    def full_width_page(self):
+        request = self.context['request']
+        plans = FloorPlan.objects.restrict(request.user, 'view').filter(location=self.context['object'])
+        if not plans:
+            return ''
+        return self.render('netbox_floorplanner/inc/location_floorplans.html', extra_context={
+            'previews': [(plan, render_preview_svg(plan)) for plan in plans],
+        })
+
+
+template_extensions = [RackFloorPlanButton, LocationFloorPlanPreview]

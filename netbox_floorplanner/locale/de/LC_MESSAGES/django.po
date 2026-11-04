@@ -239,6 +239,9 @@ msgstr "Beschreibung"
 msgid "Add floor plan"
 msgstr "Grundriss hinzufügen"
 
+msgid "Open floor plan"
+msgstr "Grundriss öffnen"
+
 msgid "Show on floor plan"
 msgstr "Im Grundriss anzeigen"
 

@@ -106,6 +106,7 @@ sudo systemctl restart netbox netbox-rq
 - **Shape library:** wall, door (with swing arc), window, area/zone, column, cooling unit, power/UPS and free text labels, each with an editable colour.
 - **NetBox integration:**
   - The palette lists the site's racks (filtered by location) and its non-racked devices, such as access points and cameras. Objects already placed are marked and can only be placed once.
+  - Clickable floor plan previews on Location pages. Clicking a preview opens the floor plan.
   - A **Floor Plans** tab on Site and Location pages, with a pre-filled "Add floor plan" button.
   - A **Show on floor plan** button on Rack and Device pages that opens the plan, zooms to the object and highlights it.
 - **Interactive view mode:** pan, zoom, tooltips (status, role, tenant, height, device count), click to open the rack or device (Ctrl+click opens a new tab), colouring by type, status or role, and a search box that highlights matches.
