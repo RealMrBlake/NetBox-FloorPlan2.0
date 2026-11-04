@@ -19,47 +19,83 @@ It is a from-scratch alternative to the community `netbox-floorplan-plugin`, wit
 - Python 3.12 or newer.
 - No additional Python dependencies and no JavaScript build step. The designer is plain JavaScript and SVG and uses the Material Design Icons that ship with NetBox.
 
-## Installation and updates
+## Installation
 
-1. Install the package into the NetBox virtual environment:
+### 1. Install the package
 
-   ```bash
-   source /opt/netbox/venv/bin/activate
-   pip install "git+https://git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0.git"
-   ```
+```bash
+/opt/netbox/venv/bin/pip install --upgrade --force-reinstall \
+  "git+https://git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0.git@main"
+```
 
-2. Add the same source to `local_requirements.txt`, so NetBox upgrades (`upgrade.sh`) reinstall the plugin automatically:
+### 2. Add the plugin to `local_requirements.txt`
 
-   ```text
-   git+https://git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0.git
-   ```
+This way, NetBox upgrades (`upgrade.sh`) reinstall the plugin automatically:
 
-   For private repositories use a deploy token or SSH key and keep the credentials out of this file.
+```bash
+grep -qxF "git+https://git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0.git@main" /opt/netbox/local_requirements.txt \
+  || echo "git+https://git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0.git@main" | sudo tee -a /opt/netbox/local_requirements.txt
+```
 
-3. Enable the plugin in `configuration.py`:
+### 3. Enable the plugin
 
-   ```python
-   PLUGINS = [
-       'netbox_floorplanner',
-   ]
+In `/opt/netbox/netbox/netbox/configuration.py`:
 
-   PLUGINS_CONFIG = {
-       'netbox_floorplanner': {
-           # optional, see "Configuration"
-       },
-   }
-   ```
+```python
+PLUGINS = [
+    'netbox_floorplanner',
+]
 
-4. Run the migrations, collect the static files and restart NetBox:
+PLUGINS_CONFIG = {
+    'netbox_floorplanner': {
+        # optional, see "Configuration"
+    },
+}
+```
 
-   ```bash
-   cd /opt/netbox/netbox
-   python manage.py migrate netbox_floorplanner
-   python manage.py collectstatic --no-input
-   sudo systemctl restart netbox netbox-rq
-   ```
+### 4. Apply migrations, collect static files, restart
 
-Before updating, back up the database and try the update on a staging instance first. After every update, run `migrate` and `collectstatic` again. The static files are versioned, so browsers pick up the new designer automatically.
+```bash
+cd /opt/netbox/netbox
+/opt/netbox/venv/bin/python manage.py migrate netbox_floorplanner
+/opt/netbox/venv/bin/python manage.py collectstatic --no-input
+sudo systemctl restart netbox netbox-rq
+```
+
+### Verify the installation
+
+```bash
+/opt/netbox/venv/bin/python -c \
+  "import netbox_floorplanner; print(netbox_floorplanner.__version__, netbox_floorplanner.__file__)"
+test -f /opt/netbox/netbox/static/netbox_floorplanner/floorplanner.js && echo "static files OK"
+cd /opt/netbox/netbox
+/opt/netbox/venv/bin/python manage.py shell -c \
+  "from django.urls import reverse; print(reverse('plugins:netbox_floorplanner:floorplan_list'))"
+```
+
+## Update
+
+Back up the database before updating, and try the update on a staging instance first.
+
+```bash
+/opt/netbox/venv/bin/pip install --upgrade --force-reinstall \
+  "git+https://git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0.git@main"
+cd /opt/netbox/netbox
+/opt/netbox/venv/bin/python manage.py migrate netbox_floorplanner
+/opt/netbox/venv/bin/python manage.py collectstatic --no-input
+sudo systemctl restart netbox netbox-rq
+```
+
+The static files are versioned, so browsers pick up the new designer automatically.
+
+### NetBox upgrade
+
+As long as the plugin is listed in `local_requirements.txt`, the NetBox upgrade script reinstalls it and runs its migrations:
+
+```bash
+sudo /opt/netbox/upgrade.sh
+sudo systemctl restart netbox netbox-rq
+```
 
 ## Main features
 
@@ -150,14 +186,14 @@ cd netbox_floorplanner && django-admin compilemessages -l de
 2. Drop the plugin tables:
 
    ```bash
-   python manage.py migrate netbox_floorplanner zero
+   cd /opt/netbox/netbox && /opt/netbox/venv/bin/python manage.py migrate netbox_floorplanner zero
    ```
 
 3. Remove `netbox_floorplanner` from `PLUGINS` and `PLUGINS_CONFIG`, and its line from `local_requirements.txt`.
 4. Uninstall the package and restart NetBox:
 
    ```bash
-   pip uninstall netbox-floorplanner
+   /opt/netbox/venv/bin/pip uninstall netbox-floorplanner
    sudo systemctl restart netbox netbox-rq
    ```
 
