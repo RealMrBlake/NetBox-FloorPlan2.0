@@ -11,6 +11,7 @@ from . import filtersets, forms, tables
 from .choices import ItemTypeChoices
 from .models import FloorPlan
 from .strings import get_js_strings
+from .utils import format_meters, format_room_size
 
 
 def floorplans_queryset():
@@ -66,7 +67,11 @@ class FloorPlanView(generic.ObjectView):
     queryset = floorplans_queryset()
 
     def get_extra_context(self, request, instance):
-        return {'designer_config': designer_config(request, instance, 'view')}
+        return {
+            'designer_config': designer_config(request, instance, 'view'),
+            'room_size': format_room_size(instance.width, instance.depth),
+            'floor_area': format_meters(instance.width * instance.depth / 100),
+        }
 
 
 @register_model_view(FloorPlan, 'designer', path='designer')

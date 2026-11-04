@@ -64,7 +64,7 @@ Before updating, back up the database and try the update on a staging instance f
 ## Main features
 
 - **Drag & drop designer:** drag shapes, racks and devices from the palette onto the plan, or click an entry to drop it in the middle of the view.
-- **To-scale plans:** 1 unit = 1 cm. Racks are sized from their `outer_width` and `outer_depth` (mm or inch), with a configurable fallback.
+- **To-scale plans:** enter the room size in meters, e.g. `4 x 3` or `12,5 x 8`, or exactly in centimeters. Both are available in the form and in the designer, and the plan shows its dimensions in meters along the walls. Racks are sized from their `outer_width` and `outer_depth` (mm or inch), with a configurable fallback.
 - **Editing:** move, resize with 8 handles, free rotation with 15° snapping, multi-selection (Shift+click or rubber band), z-order, copy/paste/duplicate, arrow-key nudging and 100 undo/redo steps.
 - **Smart snapping:** snaps to the grid, plus magnetic alignment to the edges of neighbouring items and room walls, with visible guide lines. Hold **Alt** to place freely.
 - **Shape library:** wall, door (with swing arc), window, area/zone, column, cooling unit, power/UPS and free text labels, each with an editable colour.
@@ -129,7 +129,7 @@ Example layout payload:
 
 ## Important semantics
 
-- **Coordinates are centimetres.** The `height` field of an item is its depth on the floor (the Y extent), not its height in rack units.
+- **Coordinates are stored in centimetres.** The room size in meters is only an input and display format, converted to whole centimetres. The `height` field of an item is its depth on the floor (the Y extent), not its height in rack units.
 - **The layout is saved as a whole.** Saving replaces all items of the plan in one transaction and writes a single change-log entry on the floor plan. Item IDs are not stable across saves, so reference racks and devices instead.
 - **Racks and devices can be placed at most once per plan,** and must belong to the plan's site. Pasted copies of linked items become unlinked shapes.
 - **Deleting a rack or device removes its item** from every floor plan. Deleting a site or location deletes its floor plans.

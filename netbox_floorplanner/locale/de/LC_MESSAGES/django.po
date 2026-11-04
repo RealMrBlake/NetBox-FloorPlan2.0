@@ -171,8 +171,23 @@ msgstr "Raum"
 msgid "Floor plan"
 msgstr "Grundriss"
 
-msgid "Dimensions (cm)"
-msgstr "Abmessungen (cm)"
+msgid "Room size (m)"
+msgstr "Raumgröße (m)"
+
+msgid "Width x depth in meters, e.g. \"4 x 3\" or \"12,5 x 8\". Takes precedence over the centimeter values."
+msgstr "Breite x Tiefe in Metern, z. B. „4 x 3“ oder „12,5 x 8“. Hat Vorrang vor den Zentimeterwerten."
+
+msgid "Enter the size as \"width x depth\" in meters, e.g. \"4 x 3\"."
+msgstr "Bitte die Größe als „Breite x Tiefe“ in Metern angeben, z. B. „4 x 3“."
+
+msgid "e.g. 4 x 3"
+msgstr "z. B. 4 x 3"
+
+msgid "Width x depth in meters, e.g. 4 x 3"
+msgstr "Breite x Tiefe in Metern, z. B. 4 x 3"
+
+msgid "Floor area"
+msgstr "Grundfläche"
 
 msgid "Background"
 msgstr "Hintergrund"

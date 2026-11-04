@@ -76,6 +76,17 @@
     return Math.round(u === 'in' ? value * 2.54 : value / 10);
   }
 
+  const meterFormat = new Intl.NumberFormat(document.documentElement.lang || undefined, { maximumFractionDigits: 2 });
+  const meters = (cm) => meterFormat.format(cm / 100);
+  const roomSize = (w, d) => `${meters(w)} x ${meters(d)}`;
+
+  // "4x3", "4 x 3 m", "12,5 × 8" -> [width_cm, depth_cm]; mirrors utils.parse_room_size()
+  function parseRoomSize(value) {
+    const m = /^\s*(\d+(?:[.,]\d+)?)\s*m?\s*[x×*]\s*(\d+(?:[.,]\d+)?)\s*m?\s*$/i.exec(value || '');
+    if (!m) return null;
+    return [m[1], m[2]].map((v) => Math.round(parseFloat(v.replace(',', '.')) * 100));
+  }
+
   function download(filename, blob) {
     const a = html('a', { href: URL.createObjectURL(blob), download: filename });
     document.body.appendChild(a);
@@ -162,6 +173,8 @@
       this.bgImage = svg('image', { preserveAspectRatio: 'none', x: 0, y: 0 }, this.viewport);
       this.gridRect = svg('rect', { x: 0, y: 0, fill: `url(#${this.gridId})`, 'pointer-events': 'none' }, this.viewport);
       this.floorBorder = svg('rect', { class: 'fp-floor-border', x: 0, y: 0, fill: 'none', 'pointer-events': 'none' }, this.viewport);
+      this.dimTop = svg('text', { 'text-anchor': 'middle', 'pointer-events': 'none', 'font-family': 'Inter, system-ui, sans-serif' }, this.viewport);
+      this.dimLeft = svg('text', { 'text-anchor': 'middle', 'pointer-events': 'none', 'font-family': 'Inter, system-ui, sans-serif' }, this.viewport);
       this.itemsLayer = svg('g', { class: 'fp-items' }, this.viewport);
       this.overlay = svg('g', { class: 'fp-overlay' }, this.viewport);
 
@@ -614,14 +627,23 @@
 
     baseScale() {
       const r = this.svg.getBoundingClientRect();
+      // Leave room for the dimension labels on the top and left edge
+      const pad = this.dimFontSize() * 2;
       const m = 40;
-      return Math.max(0.01, Math.min((r.width - m) / this.settings.width, (r.height - m) / this.settings.depth));
+      return Math.max(0.01, Math.min(
+        (r.width - m) / (this.settings.width + pad), (r.height - m) / (this.settings.depth + pad),
+      ));
     }
 
     fit() {
       const r = this.svg.getBoundingClientRect();
       const s = this.baseScale();
-      this.view = { scale: s, x: (r.width - this.settings.width * s) / 2, y: (r.height - this.settings.depth * s) / 2 };
+      const pad = this.dimFontSize();
+      this.view = {
+        scale: s,
+        x: (r.width - (this.settings.width - pad) * s) / 2,
+        y: (r.height - (this.settings.depth - pad) * s) / 2,
+      };
       this.applyView();
     }
 
@@ -658,6 +680,21 @@
       this.gridPath.setAttribute('stroke', this.cssVar('--fp-grid', '#e2e8f0'));
       this.gridRect.style.display = this.gridVisible ? '' : 'none';
 
+      // Room dimensions in meters along the top and left edge
+      const fs = this.dimFontSize();
+      const muted = this.cssVar('--fp-muted', '#6c757d');
+      this.dimTop.setAttribute('x', width / 2);
+      this.dimTop.setAttribute('y', -fs * 0.6);
+      this.dimTop.setAttribute('font-size', fs);
+      this.dimTop.setAttribute('fill', muted);
+      this.dimTop.textContent = meters(width) + ' m';
+      this.dimLeft.setAttribute('x', 0);
+      this.dimLeft.setAttribute('y', 0);
+      this.dimLeft.setAttribute('font-size', fs);
+      this.dimLeft.setAttribute('fill', muted);
+      this.dimLeft.setAttribute('transform', `translate(${-fs * 0.6} ${depth / 2}) rotate(-90)`);
+      this.dimLeft.textContent = meters(depth) + ' m';
+
       const bg = this.cfg.background || {};
       if (bg.url) {
         this.bgImage.setAttribute('href', bg.url);
@@ -667,6 +704,10 @@
       } else {
         this.bgImage.style.display = 'none';
       }
+    }
+
+    dimFontSize() {
+      return clamp(Math.max(this.settings.width, this.settings.depth) * 0.025, 10, 200);
     }
 
     itemColor(i) {
@@ -868,8 +909,25 @@
           this.settings[key] = Math.max(min, v);
           this.renderFloor();
           this.render();
+          this.renderPanel();
         };
+        const sizeInput = html('input', {
+          type: 'text', class: 'form-control form-control-sm', value: roomSize(this.settings.width, this.settings.depth),
+          placeholder: this.t('e.g. 4 x 3'), title: this.t('Width x depth in meters, e.g. 4 x 3'),
+          onchange: (e) => {
+            const size = parseRoomSize(e.target.value);
+            if (!size || size[0] < 100 || size[1] < 100) { e.target.classList.add('is-invalid'); return; }
+            this.checkpoint();
+            [this.settings.width, this.settings.depth] = size;
+            this.renderFloor();
+            this.render();
+            this.renderPanel();
+            this.fit();
+          },
+        });
         p.append(
+          field(this.t('Room size (m)'), sizeInput),
+          html('div', { class: 'fp-muted fp-field', text: this.t('Floor area') + ': ' + meters(this.settings.width * this.settings.depth / 100) + ' m²' }),
           field(this.t('Width (cm)'), num(this.settings.width, setSetting('width', 100), { min: 100, step: 10 })),
           field(this.t('Depth (cm)'), num(this.settings.depth, setSetting('depth', 100), { min: 100, step: 10 })),
           field(this.t('Grid size (cm)'), num(this.settings.grid_size, setSetting('grid_size', 5), { min: 5, step: 5 })),
@@ -919,6 +977,7 @@
           field(this.t('Width (cm)'), num(i.width, (v) => update((it) => { it.width = Math.max(1, v); }), { min: 1 })),
           field(this.t('Depth (cm)'), num(i.height, (v) => update((it) => { it.height = Math.max(1, v); }), { min: 1 })),
         ]),
+        html('div', { class: 'fp-muted fp-field', text: '= ' + roomSize(i.width, i.height) + ' m' }),
         field(this.t('Rotation (°)'), num(i.rotation || 0, (v) => update((it) => { it.rotation = ((v % 360) + 360) % 360; }), { step: 15 })),
         field(this.t('Color'), html('div', { class: 'fp-color' }, [
           html('input', {
@@ -1194,7 +1253,7 @@
       const o = i.object || {};
       const rows = [
         html('strong', { text: this.itemText(i) || this.cfg.types[i.item_type] }),
-        html('div', { class: 'fp-muted', text: this.cfg.types[i.item_type] + ` · ${i.width} × ${i.height} cm` }),
+        html('div', { class: 'fp-muted', text: this.cfg.types[i.item_type] + ` · ${roomSize(i.width, i.height)} m` }),
       ];
       if (o.status_label) rows.push(html('div', {}, [this.t('Status') + ': ', html('span', { class: 'badge text-bg-' + (o.status_color || 'secondary'), text: o.status_label })]));
       if (o.role) rows.push(html('div', { text: this.t('Role') + ': ' + o.role }));
@@ -1227,7 +1286,7 @@
 
     async exportClone() {
       const clone = this.svg.cloneNode(true);
-      const m = 20;
+      const m = Math.max(20, this.dimFontSize() * 2);
       clone.setAttribute('viewBox', `${-m} ${-m} ${this.settings.width + 2 * m} ${this.settings.depth + 2 * m}`);
       clone.setAttribute('width', this.settings.width + 2 * m);
       clone.setAttribute('height', this.settings.depth + 2 * m);
