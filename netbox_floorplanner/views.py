@@ -15,7 +15,7 @@ from .utils import format_meters, format_room_size
 
 
 def floorplans_queryset():
-    return FloorPlan.objects.select_related('site', 'location').annotate(
+    return FloorPlan.objects.select_related('site', 'location', 'tenant').annotate(
         item_count=Count('items', distinct=True),
         rack_count=Count('items', filter=Q(items__rack__isnull=False), distinct=True),
     )
@@ -104,6 +104,11 @@ class FloorPlanEditView(generic.ObjectEditView):
                 obj.site_id = site_id
             if location_id := request.GET.get('location'):
                 obj.location_id = location_id
+            # Inherit the tenant from the location or site
+            if obj.location_id and (location := Location.objects.filter(pk=obj.location_id).first()):
+                obj.tenant_id = location.tenant_id
+            if not obj.tenant_id and obj.site_id and (site := Site.objects.filter(pk=obj.site_id).first()):
+                obj.tenant_id = site.tenant_id
         return obj
 
 

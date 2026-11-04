@@ -10,7 +10,7 @@ from .serializers import FloorPlanItemSerializer, FloorPlanSerializer, LayoutSer
 
 
 class FloorPlanViewSet(NetBoxModelViewSet):
-    queryset = FloorPlan.objects.select_related('site', 'location').prefetch_related('tags').annotate(
+    queryset = FloorPlan.objects.select_related('site', 'location', 'tenant').prefetch_related('tags').annotate(
         item_count=Count('items')
     )
     serializer_class = FloorPlanSerializer

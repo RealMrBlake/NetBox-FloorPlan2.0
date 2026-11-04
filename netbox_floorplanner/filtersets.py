@@ -3,13 +3,14 @@ from dcim.models import Location, Site
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from netbox.filtersets import NetBoxModelFilterSet
+from tenancy.filtersets import TenancyFilterSet
 
 from .models import FloorPlan
 
 __all__ = ('FloorPlanFilterSet',)
 
 
-class FloorPlanFilterSet(NetBoxModelFilterSet):
+class FloorPlanFilterSet(TenancyFilterSet, NetBoxModelFilterSet):
     site_id = django_filters.ModelMultipleChoiceFilter(
         queryset=Site.objects.all(),
         label=_('Site (ID)'),
@@ -42,4 +43,5 @@ class FloorPlanFilterSet(NetBoxModelFilterSet):
             | Q(description__icontains=value)
             | Q(site__name__icontains=value)
             | Q(location__name__icontains=value)
+            | Q(tenant__name__icontains=value)
         )

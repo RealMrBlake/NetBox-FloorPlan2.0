@@ -112,6 +112,7 @@ sudo systemctl restart netbox netbox-rq
 - **Interactive view mode:** pan, zoom, tooltips (status, role, tenant, height, device count), click to open the rack or device (Ctrl+click opens a new tab), colouring by type, status or role, and a search box that highlights matches.
 - **Background drawings:** upload a CAD or architectural image per plan, stretched to the room size with adjustable opacity.
 - **Export:** SVG (vector) and high-resolution PNG, with the background embedded.
+- **Tenancy:** an optional tenant per floor plan, with tenant and tenant group filters and columns in the floor plan list. New plans inherit the tenant of their location or site, and existing plans are pre-filled from them during the migration.
 - **NetBox native:** change logging, journaling, tags, custom fields, global search, CSV/YAML import, bulk delete, object permissions, REST API, dark mode and fullscreen.
 
 ### Keyboard shortcuts (designer)

@@ -122,6 +122,12 @@ msgstr "Farbe"
 msgid "z-index"
 msgstr "Ebene"
 
+msgid "tenant"
+msgstr "Mandant"
+
+msgid "Tenancy"
+msgstr "Mandantenzuordnung"
+
 msgid "rack"
 msgstr "Rack"
 

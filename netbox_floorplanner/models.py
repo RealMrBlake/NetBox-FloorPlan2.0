@@ -26,6 +26,14 @@ class FloorPlan(NetBoxModel):
         null=True,
         verbose_name=_('location'),
     )
+    tenant = models.ForeignKey(
+        to='tenancy.Tenant',
+        on_delete=models.PROTECT,
+        related_name='floorplans',
+        blank=True,
+        null=True,
+        verbose_name=_('tenant'),
+    )
     width = models.PositiveIntegerField(
         verbose_name=_('width'),
         default=2000,

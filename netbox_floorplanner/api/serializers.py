@@ -3,6 +3,7 @@ from dcim.choices import DeviceStatusChoices, RackStatusChoices
 from dcim.models import Device, Rack
 from django.utils.translation import gettext as _
 from netbox.api.serializers import NetBoxModelSerializer
+from tenancy.api.serializers import TenantSerializer
 from rest_framework import serializers
 
 from ..models import FloorPlan, FloorPlanItem
@@ -14,12 +15,13 @@ class FloorPlanSerializer(NetBoxModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='plugins-api:netbox_floorplanner-api:floorplan-detail')
     site = SiteSerializer(nested=True)
     location = LocationSerializer(nested=True, required=False, allow_null=True, default=None)
+    tenant = TenantSerializer(nested=True, required=False, allow_null=True, default=None)
     item_count = serializers.IntegerField(read_only=True, required=False)
 
     class Meta:
         model = FloorPlan
         fields = (
-            'id', 'url', 'display', 'name', 'site', 'location', 'width', 'depth', 'grid_size',
+            'id', 'url', 'display', 'name', 'site', 'location', 'tenant', 'width', 'depth', 'grid_size',
             'background_image', 'background_opacity', 'description', 'comments', 'item_count',
             'tags', 'custom_fields', 'created', 'last_updated',
         )

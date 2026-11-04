@@ -34,6 +34,13 @@
             <td>{{ object.location|linkify|placeholder }}</td>
           </tr>
           <tr>
+            <th scope="row">{% trans "Tenant" %}</th>
+            <td>
+              {% if object.tenant.group %}{{ object.tenant.group|linkify }} / {% endif %}
+              {{ object.tenant|linkify|placeholder }}
+            </td>
+          </tr>
+          <tr>
             <th scope="row">{% trans "Dimensions" %}</th>
             <td>{{ room_size }} m <span class="text-muted">({{ object.width }} × {{ object.depth }} cm · {{ floor_area }} m²)</span></td>
           </tr>

@@ -3,6 +3,8 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from netbox.forms import NetBoxModelFilterSetForm, NetBoxModelForm, NetBoxModelImportForm
 from netbox.plugins import get_plugin_config
+from tenancy.forms import TenancyFilterForm, TenancyForm
+from tenancy.models import Tenant
 from utilities.forms.fields import (
     CSVModelChoiceField, CommentField, DynamicModelChoiceField, DynamicModelMultipleChoiceField, TagFilterField,
 )
@@ -14,7 +16,7 @@ from .utils import format_room_size, parse_room_size
 __all__ = ('FloorPlanForm', 'FloorPlanFilterForm', 'FloorPlanImportForm')
 
 
-class FloorPlanForm(NetBoxModelForm):
+class FloorPlanForm(TenancyForm, NetBoxModelForm):
     site = DynamicModelChoiceField(label=_('Site'), queryset=Site.objects.all())
     location = DynamicModelChoiceField(
         label=_('Location'),
@@ -31,6 +33,7 @@ class FloorPlanForm(NetBoxModelForm):
 
     fieldsets = (
         FieldSet('name', 'site', 'location', 'description', 'tags', name=_('Floor plan')),
+        FieldSet('tenant_group', 'tenant', name=_('Tenancy')),
         FieldSet('room_size', 'width', 'depth', 'grid_size', name=_('Dimensions')),
         FieldSet('background_image', 'background_opacity', name=_('Background')),
     )
@@ -38,7 +41,7 @@ class FloorPlanForm(NetBoxModelForm):
     class Meta:
         model = FloorPlan
         fields = (
-            'name', 'site', 'location', 'description', 'width', 'depth', 'grid_size',
+            'name', 'site', 'location', 'tenant_group', 'tenant', 'description', 'width', 'depth', 'grid_size',
             'background_image', 'background_opacity', 'comments', 'tags',
         )
         widgets = {
@@ -67,11 +70,12 @@ class FloorPlanForm(NetBoxModelForm):
         return self.cleaned_data
 
 
-class FloorPlanFilterForm(NetBoxModelFilterSetForm):
+class FloorPlanFilterForm(TenancyFilterForm, NetBoxModelFilterSetForm):
     model = FloorPlan
     fieldsets = (
         FieldSet('q', 'filter_id', 'tag'),
         FieldSet('site_id', 'location_id', name=_('Location')),
+        FieldSet('tenant_group_id', 'tenant_id', name=_('Tenant')),
     )
     site_id = DynamicModelMultipleChoiceField(queryset=Site.objects.all(), required=False, label=_('Site'))
     location_id = DynamicModelMultipleChoiceField(
@@ -88,7 +92,10 @@ class FloorPlanImportForm(NetBoxModelImportForm):
     location = CSVModelChoiceField(
         label=_('Location'), queryset=Location.objects.all(), to_field_name='name', required=False,
     )
+    tenant = CSVModelChoiceField(
+        label=_('Tenant'), queryset=Tenant.objects.all(), to_field_name='name', required=False,
+    )
 
     class Meta:
         model = FloorPlan
-        fields = ('name', 'site', 'location', 'description', 'width', 'depth', 'grid_size', 'comments', 'tags')
+        fields = ('name', 'site', 'location', 'tenant', 'description', 'width', 'depth', 'grid_size', 'comments', 'tags')

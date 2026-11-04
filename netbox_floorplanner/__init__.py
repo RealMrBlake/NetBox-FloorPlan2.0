@@ -1,7 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 from netbox.plugins import PluginConfig
 
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
 
 class FloorPlannerConfig(PluginConfig):
