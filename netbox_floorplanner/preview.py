@@ -61,8 +61,10 @@ def _item_svg(item):
             fs = max(6, min(h * 0.3, (w * 1.6) / max(len(text), 3), 60))
         fill = '#ffffff' if t in FILLED_TYPES else (item.color or 'currentColor') if t == 'label' else _shade(color)
         anchor, tx, ty = ('start', x + fs * 0.5, y + fs * 1.2) if t == 'area' else ('middle', cx, cy)
+        # Keep text readable on items rotated upside down
+        flip = f' transform="rotate(180 {tx} {ty})"' if 90 < item.rotation % 360 <= 270 else ''
         parts.append(f'<text x="{tx}" y="{ty}" font-size="{fs:.1f}" font-weight="600" text-anchor="{anchor}" '
-                     f'dominant-baseline="middle" fill="{fill}">{escape(text)}</text>')
+                     f'dominant-baseline="middle" fill="{fill}"{flip}>{escape(text)}</text>')
 
     transform = f' transform="rotate({item.rotation} {cx} {cy})"' if item.rotation else ''
     return f'<g{transform}>{"".join(parts)}</g>'

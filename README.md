@@ -4,6 +4,8 @@
 
 It is a from-scratch alternative to the community `netbox-floorplan-plugin`, with a canvas-style editor in the spirit of draw.io instead of a form-based workflow.
 
+![Floor plan designer](docs/screenshots/designer.png)
+
 | | |
 |---|---|
 | **Repository** | [git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0](https://git.mrblake.cc/MrBlake/NetBox-FloorPlan2.0) |
@@ -114,6 +116,24 @@ sudo systemctl restart netbox netbox-rq
 - **Export:** SVG (vector) and high-resolution PNG, with the background embedded.
 - **Tenancy:** an optional tenant per floor plan, with tenant and tenant group filters and columns in the floor plan list. New plans inherit the tenant of their location or site, and existing plans are pre-filled from them during the migration.
 - **NetBox native:** change logging, journaling, tags, custom fields, global search, CSV/YAML import, bulk delete, object permissions, REST API, dark mode and fullscreen.
+
+### Screenshots
+
+**Designer:** palette with shapes, racks and devices on the left, properties of the selected rack on the right.
+
+![Designer](docs/screenshots/designer.png)
+
+**View mode:** racks coloured by status, with a tooltip that shows status, role, tenant and device count.
+
+![View mode](docs/screenshots/view.png)
+
+**Location page:** clickable previews of all floor plans of the location.
+
+![Location page previews](docs/screenshots/location.png)
+
+**Dark mode:**
+
+![Designer in dark mode](docs/screenshots/designer-dark.png)
 
 ### Keyboard shortcuts (designer)
 

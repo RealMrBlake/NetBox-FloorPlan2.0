@@ -815,8 +815,17 @@
           'pointer-events': 'none',
         }, g);
         tnode.textContent = text;
+        // Keep text readable on items rotated upside down
+        const rot = ((i.rotation || 0) % 360 + 360) % 360;
+        if (rot > 90 && rot <= 270) tnode.setAttribute('transform', `rotate(180 ${tx} ${ty})`);
       }
       return g;
+    }
+
+    statusBadge(o) {
+      // Inline colors: NetBox color names (e.g. "green") are not Bootstrap badge classes
+      const bg = COLOR_NAMES[o.status_color] || o.status_color || COLOR_NAMES.gray;
+      return html('span', { class: 'badge', style: `background:${bg};color:#fff`, text: o.status_label });
     }
 
     shade(hex) {
@@ -959,7 +968,7 @@
         const o = i.object;
         const rows = [
           [this.t('Linked object'), html('a', { href: o.url, target: '_blank', text: o.name })],
-          o.status_label ? [this.t('Status'), html('span', { class: 'badge text-bg-' + (o.status_color || 'secondary'), text: o.status_label })] : null,
+          o.status_label ? [this.t('Status'), this.statusBadge(o)] : null,
           o.role ? [this.t('Role'), o.role] : null,
           o.tenant ? [this.t('Tenant'), o.tenant] : null,
           o.u_height ? [this.t('Height (U)'), String(o.u_height)] : null,
@@ -1259,7 +1268,7 @@
         html('strong', { text: this.itemText(i) || this.cfg.types[i.item_type] }),
         html('div', { class: 'fp-muted', text: this.cfg.types[i.item_type] + ` · ${roomSize(i.width, i.height)} m` }),
       ];
-      if (o.status_label) rows.push(html('div', {}, [this.t('Status') + ': ', html('span', { class: 'badge text-bg-' + (o.status_color || 'secondary'), text: o.status_label })]));
+      if (o.status_label) rows.push(html('div', {}, [this.t('Status') + ': ', this.statusBadge(o)]));
       if (o.role) rows.push(html('div', { text: this.t('Role') + ': ' + o.role }));
       if (o.tenant) rows.push(html('div', { text: this.t('Tenant') + ': ' + o.tenant }));
       if (o.u_height) rows.push(html('div', { text: this.t('Height (U)') + ': ' + o.u_height }));
