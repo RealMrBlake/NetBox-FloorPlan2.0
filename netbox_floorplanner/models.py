@@ -4,6 +4,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from netbox.models import NetBoxModel
+from utilities.querysets import RestrictedQuerySet
 
 from .choices import ItemTypeChoices
 
@@ -94,6 +95,8 @@ class FloorPlanItem(models.Model):
     """
     A single shape on a floor plan. Items are always written as a whole layout
     through the layout API endpoint; changes are change-logged on the parent plan.
+    The rack/device relations have no reverse accessor, so NetBox does not list
+    items as "related objects" on rack and device pages.
     """
     floorplan = models.ForeignKey(
         to=FloorPlan,
@@ -117,7 +120,7 @@ class FloorPlanItem(models.Model):
     rack = models.ForeignKey(
         to='dcim.Rack',
         on_delete=models.CASCADE,
-        related_name='floorplan_items',
+        related_name='+',
         blank=True,
         null=True,
         verbose_name=_('rack'),
@@ -125,12 +128,14 @@ class FloorPlanItem(models.Model):
     device = models.ForeignKey(
         to='dcim.Device',
         on_delete=models.CASCADE,
-        related_name='floorplan_items',
+        related_name='+',
         blank=True,
         null=True,
         verbose_name=_('device'),
     )
     properties = models.JSONField(verbose_name=_('properties'), default=dict, blank=True)
+
+    objects = RestrictedQuerySet.as_manager()
 
     class Meta:
         ordering = ('floorplan', 'z_index', 'pk')
