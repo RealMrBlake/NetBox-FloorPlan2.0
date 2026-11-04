@@ -1,0 +1,391 @@
+# German translation for netbox-floorplanner.
+msgid ""
+msgstr ""
+"Project-Id-Version: netbox-floorplanner 0.1.0\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Plugin / navigation
+msgid "Floor Planner"
+msgstr "Grundrissplaner"
+
+msgid "Drag & drop floor plan designer for sites and locations"
+msgstr "Drag-&-Drop-Grundrissdesigner für Standorte und Räume"
+
+msgid "Floor Plans"
+msgstr "Grundrisse"
+
+msgid "Add"
+msgstr "Hinzufügen"
+
+msgid "Import"
+msgstr "Importieren"
+
+# Item types
+msgid "Rack"
+msgstr "Rack"
+
+msgid "Device"
+msgstr "Gerät"
+
+msgid "Wall"
+msgstr "Wand"
+
+msgid "Door"
+msgstr "Tür"
+
+msgid "Window"
+msgstr "Fenster"
+
+msgid "Area"
+msgstr "Bereich"
+
+msgid "Column"
+msgstr "Säule"
+
+msgid "Cooling unit"
+msgstr "Klimagerät"
+
+msgid "Power / UPS"
+msgstr "Strom / USV"
+
+msgid "Label"
+msgstr "Beschriftung"
+
+# Model fields
+msgid "name"
+msgstr "Name"
+
+msgid "site"
+msgstr "Standort"
+
+msgid "location"
+msgstr "Raum"
+
+msgid "width"
+msgstr "Breite"
+
+msgid "depth"
+msgstr "Tiefe"
+
+msgid "grid size"
+msgstr "Rastergröße"
+
+msgid "background image"
+msgstr "Hintergrundbild"
+
+msgid "background opacity"
+msgstr "Deckkraft des Hintergrunds"
+
+msgid "description"
+msgstr "Beschreibung"
+
+msgid "comments"
+msgstr "Kommentare"
+
+msgid "floor plan"
+msgstr "Grundriss"
+
+msgid "floor plans"
+msgstr "Grundrisse"
+
+msgid "floor plan item"
+msgstr "Grundriss-Element"
+
+msgid "floor plan items"
+msgstr "Grundriss-Elemente"
+
+msgid "type"
+msgstr "Typ"
+
+msgid "label"
+msgstr "Beschriftung"
+
+msgid "X"
+msgstr "X"
+
+msgid "Y"
+msgstr "Y"
+
+msgid "height"
+msgstr "Höhe"
+
+msgid "rotation"
+msgstr "Drehung"
+
+msgid "color"
+msgstr "Farbe"
+
+msgid "z-index"
+msgstr "Ebene"
+
+msgid "rack"
+msgstr "Rack"
+
+msgid "device"
+msgstr "Gerät"
+
+msgid "properties"
+msgstr "Eigenschaften"
+
+msgid "Room width in centimeters"
+msgstr "Raumbreite in Zentimetern"
+
+msgid "Room depth in centimeters"
+msgstr "Raumtiefe in Zentimetern"
+
+msgid "Grid spacing in centimeters (used for snapping)"
+msgstr "Rasterabstand in Zentimetern (für das Einrasten)"
+
+msgid "Optional architectural drawing shown behind the plan, stretched to the room size"
+msgstr "Optionale Bauzeichnung hinter dem Plan, auf die Raumgröße gestreckt"
+
+msgid "Opacity of the background image in percent"
+msgstr "Deckkraft des Hintergrundbilds in Prozent"
+
+msgid "The location must belong to the selected site."
+msgstr "Der Raum muss zum ausgewählten Standort gehören."
+
+# Filters, forms, tables
+msgid "Site (ID)"
+msgstr "Standort (ID)"
+
+msgid "Site (slug)"
+msgstr "Standort (Slug)"
+
+msgid "Location (ID)"
+msgstr "Raum (ID)"
+
+msgid "Contains rack (ID)"
+msgstr "Enthält Rack (ID)"
+
+msgid "Site"
+msgstr "Standort"
+
+msgid "Location"
+msgstr "Raum"
+
+msgid "Floor plan"
+msgstr "Grundriss"
+
+msgid "Dimensions (cm)"
+msgstr "Abmessungen (cm)"
+
+msgid "Background"
+msgstr "Hintergrund"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Width (cm)"
+msgstr "Breite (cm)"
+
+msgid "Depth (cm)"
+msgstr "Tiefe (cm)"
+
+msgid "Items"
+msgstr "Elemente"
+
+msgid "Racks"
+msgstr "Racks"
+
+# API validation
+msgid "Color must be a hex value like #3b82f6."
+msgstr "Die Farbe muss ein Hex-Wert wie #3b82f6 sein."
+
+msgid "{obj} does not belong to site {site}."
+msgstr "{obj} gehört nicht zum Standort {site}."
+
+msgid "An item can be linked to a rack or a device, not both."
+msgstr "Ein Element kann mit einem Rack oder einem Gerät verknüpft sein, nicht mit beiden."
+
+msgid "{obj} is placed more than once."
+msgstr "{obj} ist mehrfach platziert."
+
+# Views / templates
+msgid "Designer"
+msgstr "Designer"
+
+msgid "Open designer"
+msgstr "Designer öffnen"
+
+msgid "Dimensions"
+msgstr "Abmessungen"
+
+msgid "Grid size"
+msgstr "Rastergröße"
+
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid "Add floor plan"
+msgstr "Grundriss hinzufügen"
+
+msgid "Show on floor plan"
+msgstr "Im Grundriss anzeigen"
+
+# Designer (JavaScript)
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Saving…"
+msgstr "Speichere…"
+
+msgid "Saved"
+msgstr "Gespeichert"
+
+msgid "Unsaved changes"
+msgstr "Ungespeicherte Änderungen"
+
+msgid "Save failed"
+msgstr "Speichern fehlgeschlagen"
+
+msgid "You have unsaved changes. Leave anyway?"
+msgstr "Es gibt ungespeicherte Änderungen. Trotzdem verlassen?"
+
+msgid "Undo"
+msgstr "Rückgängig"
+
+msgid "Redo"
+msgstr "Wiederholen"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Duplicate"
+msgstr "Duplizieren"
+
+msgid "Rotate 90°"
+msgstr "90° drehen"
+
+msgid "Bring to front"
+msgstr "In den Vordergrund"
+
+msgid "Send to back"
+msgstr "In den Hintergrund"
+
+msgid "Zoom in"
+msgstr "Vergrößern"
+
+msgid "Zoom out"
+msgstr "Verkleinern"
+
+msgid "Fit to screen"
+msgstr "An Bildschirm anpassen"
+
+msgid "Snap to grid"
+msgstr "Am Raster ausrichten"
+
+msgid "Show grid"
+msgstr "Raster anzeigen"
+
+msgid "Fullscreen"
+msgstr "Vollbild"
+
+msgid "Export SVG"
+msgstr "Als SVG exportieren"
+
+msgid "Export PNG"
+msgstr "Als PNG exportieren"
+
+msgid "Shapes"
+msgstr "Formen"
+
+msgid "Devices"
+msgstr "Geräte"
+
+msgid "Search…"
+msgstr "Suchen…"
+
+msgid "Loading…"
+msgstr "Lade…"
+
+msgid "No racks found"
+msgstr "Keine Racks gefunden"
+
+msgid "No devices found"
+msgstr "Keine Geräte gefunden"
+
+msgid "Already placed"
+msgstr "Bereits platziert"
+
+msgid "Drag onto the plan or click to add"
+msgstr "Auf den Plan ziehen oder zum Hinzufügen klicken"
+
+msgid "Properties"
+msgstr "Eigenschaften"
+
+msgid "Nothing selected – plan settings"
+msgstr "Nichts ausgewählt – Planeinstellungen"
+
+msgid "{n} items selected"
+msgstr "{n} Elemente ausgewählt"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "X (cm)"
+msgstr "X (cm)"
+
+msgid "Y (cm)"
+msgstr "Y (cm)"
+
+msgid "Height (cm)"
+msgstr "Höhe (cm)"
+
+msgid "Rotation (°)"
+msgstr "Drehung (°)"
+
+msgid "Color"
+msgstr "Farbe"
+
+msgid "Reset color"
+msgstr "Farbe zurücksetzen"
+
+msgid "Linked object"
+msgstr "Verknüpftes Objekt"
+
+msgid "Open object"
+msgstr "Objekt öffnen"
+
+msgid "Grid size (cm)"
+msgstr "Rastergröße (cm)"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Role"
+msgstr "Rolle"
+
+msgid "Tenant"
+msgstr "Mandant"
+
+msgid "Height (U)"
+msgstr "Höhe (HE)"
+
+msgid "Devices in rack"
+msgstr "Geräte im Rack"
+
+msgid "Color by"
+msgstr "Einfärben nach"
+
+msgid "Item type"
+msgstr "Elementtyp"
+
+msgid "Highlight…"
+msgstr "Hervorheben…"
+
+msgid "Keyboard shortcuts"
+msgstr "Tastenkürzel"
+
+msgid "Drag: move · Alt: no snapping · Shift+click: multi-select · Space+drag / middle mouse: pan · Wheel: zoom · R: rotate · Del: delete · Ctrl+Z/Y: undo/redo · Ctrl+C/V/D: copy/paste/duplicate · Ctrl+S: save"
+msgstr "Ziehen: verschieben · Alt: ohne Einrasten · Umschalt+Klick: Mehrfachauswahl · Leertaste+Ziehen / mittlere Maustaste: Ansicht verschieben · Mausrad: Zoom · R: drehen · Entf: löschen · Strg+Z/Y: rückgängig/wiederholen · Strg+C/V/D: kopieren/einfügen/duplizieren · Strg+S: speichern"
+
+msgid "Wheel: zoom · Drag: pan · Click a rack or device to open it"
+msgstr "Mausrad: Zoom · Ziehen: Ansicht verschieben · Rack oder Gerät anklicken, um es zu öffnen"
+
+msgid "This floor plan is empty."
+msgstr "Dieser Grundriss ist leer."

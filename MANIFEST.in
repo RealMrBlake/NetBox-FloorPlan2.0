@@ -1,0 +1,4 @@
+include README.md
+recursive-include netbox_floorplanner/templates *
+recursive-include netbox_floorplanner/static *
+recursive-include netbox_floorplanner/locale *

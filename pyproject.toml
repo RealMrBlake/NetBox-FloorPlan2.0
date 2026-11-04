@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "netbox-floorplanner"
+version = "0.1.0"
+description = "Modern drag & drop floor plan designer for NetBox 4.7+"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.12"
+authors = [{ name = "Louis" }]
+classifiers = [
+    "Framework :: Django",
+    "Programming Language :: Python :: 3",
+]
+
+[tool.setuptools.packages.find]
+include = ["netbox_floorplanner*"]
+
+[tool.setuptools.package-data]
+netbox_floorplanner = [
+    "templates/**/*",
+    "static/**/*",
+    "locale/**/*",
+]

@@ -1,0 +1,5 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'netbox_floorplanner/floorplanner.css' %}?v=0.1.0">
+<div class="fp-root" data-fp-config="fp-config"></div>
+{{ designer_config|json_script:"fp-config" }}
+<script src="{% static 'netbox_floorplanner/floorplanner.js' %}?v=0.1.0"></script>
